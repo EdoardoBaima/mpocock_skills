@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Setup First, Context Always — Owning the Engineering Skills</title>
+  <style>
+    :root {
+      --ink: #17130f;
+      --muted: #6f6258;
+      --paper: #fbf7ef;
+      --paper-2: #f3eadc;
+      --card: rgba(255, 252, 246, 0.86);
+      --line: rgba(54, 42, 31, 0.16);
+      --gold: #b9852e;
+      --rust: #a94d35;
+      --green: #536f4a;
+      --blue: #435b78;
+      --shadow: 0 24px 70px rgba(60, 43, 24, 0.13);
+      --radius: 28px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --serif: Georgia, Cambria, "Times New Roman", Times, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top left, rgba(185, 133, 46, 0.18), transparent 34rem),
+        radial-gradient(circle at 80% 12%, rgba(83, 111, 74, 0.16), transparent 30rem),
+        linear-gradient(135deg, #fffaf1 0%, var(--paper) 42%, #efe2cf 100%);
+      line-height: 1.62;
+    }
+
+    .page { max-width: 1180px; margin: 0 auto; padding: 38px 22px 90px; }
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      align-items: center;
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+      gap: 44px;
+      padding: 56px 0 36px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.45);
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 5px rgba(185,133,46,.16); }
+
+    h1, h2, h3 { line-height: 1.06; margin: 0; letter-spacing: -0.04em; }
+    h1 {
+      margin-top: 26px;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(52px, 8vw, 106px);
+    }
+    .subtitle {
+      margin: 26px 0 0;
+      max-width: 720px;
+      font-size: clamp(19px, 2.1vw, 27px);
+      color: #42362d;
+      line-height: 1.36;
+    }
+    .thesis {
+      margin-top: 34px;
+      padding: 24px 26px;
+      border-left: 5px solid var(--gold);
+      background: rgba(255,255,255,0.56);
+      border-radius: 0 22px 22px 0;
+      box-shadow: 0 12px 34px rgba(76, 51, 24, 0.08);
+      font-size: 18px;
+    }
+    .thesis strong { color: var(--rust); }
+
+    .map-card {
+      position: relative;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,248,237,0.64));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .map-card:before {
+      content: "";
+      position: absolute;
+      inset: -80px -80px auto auto;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: rgba(169, 77, 53, 0.13);
+    }
+    .node {
+      position: relative;
+      display: grid;
+      gap: 4px;
+      padding: 16px 18px;
+      margin: 14px 0;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.74);
+    }
+    .node b { font-size: 16px; }
+    .node span { color: var(--muted); font-size: 14px; }
+    .arrow { text-align: center; color: var(--gold); font-size: 24px; line-height: 1; }
+    .triad { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 15px; }
+    .pill { padding: 7px 11px; border-radius: 999px; background: #efe4d3; color: #5a493c; font-size: 13px; border: 1px solid var(--line); }
+
+    nav.toc {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      margin: 0 -22px 48px;
+      padding: 12px 22px;
+      backdrop-filter: blur(18px);
+      background: rgba(251,247,239,.78);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    nav.toc a {
+      display: inline-block;
+      margin-right: 18px;
+      color: #5e4b3d;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    nav.toc a:hover { color: var(--rust); }
+
+    section { scroll-margin-top: 72px; margin: 88px 0; }
+    .section-head { max-width: 820px; margin-bottom: 30px; }
+    .kicker { color: var(--gold); text-transform: uppercase; letter-spacing: .1em; font-size: 13px; font-weight: 760; margin-bottom: 12px; }
+    h2 { font-family: var(--serif); font-size: clamp(36px, 5vw, 64px); font-weight: 500; }
+    h3 { font-size: 25px; margin-bottom: 12px; letter-spacing: -0.025em; }
+    p { margin: 0 0 16px; }
+    .lead { font-size: 21px; color: #3f342d; line-height: 1.45; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .card {
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--card);
+      box-shadow: 0 14px 38px rgba(60,43,24,.08);
+    }
+    .card.green { border-top: 5px solid var(--green); }
+    .card.gold { border-top: 5px solid var(--gold); }
+    .card.rust { border-top: 5px solid var(--rust); }
+    .card.blue { border-top: 5px solid var(--blue); }
+    .muted { color: var(--muted); }
+    .small { font-size: 14px; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr 42px 1fr 42px 1fr;
+      align-items: stretch;
+      gap: 12px;
+      margin-top: 26px;
+    }
+    .flow .step { padding: 22px; border-radius: 22px; background: rgba(255,255,255,.72); border: 1px solid var(--line); }
+    .flow .join { display: grid; place-items: center; color: var(--gold); font-size: 30px; }
+
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: 26px; overflow: hidden; background: rgba(255,255,255,.7); box-shadow: var(--shadow); }
+    .compare > div { padding: 28px; }
+    .compare > div:first-child { border-right: 1px solid var(--line); background: rgba(169,77,53,.06); }
+    ul { padding-left: 20px; margin: 10px 0 0; }
+    li { margin: 7px 0; }
+
+    .quote {
+      margin: 32px 0;
+      padding: 32px;
+      border-radius: var(--radius);
+      background: #201914;
+      color: #fff3df;
+      box-shadow: var(--shadow);
+      font-family: var(--serif);
+      font-size: clamp(25px, 3.2vw, 42px);
+      line-height: 1.18;
+      letter-spacing: -0.035em;
+    }
+    .quote span { color: #d9a652; }
+
+    code, .code {
+      font-family: var(--mono);
+      font-size: .92em;
+      background: rgba(72, 55, 40, .08);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 2px 6px;
+    }
+    pre {
+      overflow-x: auto;
+      margin: 18px 0 0;
+      padding: 22px;
+      background: #211915;
+      color: #fff1df;
+      border-radius: 20px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.55;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+
+    .ladder { counter-reset: item; display: grid; gap: 14px; }
+    .rung { position: relative; padding: 20px 22px 20px 64px; border: 1px solid var(--line); border-radius: 20px; background: rgba(255,255,255,.66); }
+    .rung:before { counter-increment: item; content: counter(item); position: absolute; left: 20px; top: 20px; width: 28px; height: 28px; display:grid; place-items:center; border-radius:50%; background: var(--gold); color:white; font-weight: 800; }
+
+    .sources { border-top: 1px solid var(--line); padding-top: 28px; color: var(--muted); }
+    .sources a { color: #6b4b1d; }
+
+    @media (max-width: 900px) {
+      .hero, .grid-2, .grid-3, .compare { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .flow .join { transform: rotate(90deg); padding: 0; }
+      .compare > div:first-child { border-right: 0; border-bottom: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero" id="top">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Engineering skills onboarding</div>
+        <h1>Setup First,<br/>Context Always.</h1>
+        <p class="subtitle">A deep reading of two deceptively simple assumptions behind the engineering skills: run the setup skill first, and treat domain context as the shared language that makes agent work safe, compact, and cumulative.</p>
+        <div class="thesis">
+          <strong>The central idea:</strong> these skills are not independent tricks. They are a small operating system. <code>/setup-matt-pocock-skills</code> installs the wiring; <code>CONTEXT.md</code> and ADRs provide the memory; the other skills use that wiring and memory to avoid guessing.
+        </div>
+      </div>
+      <aside class="map-card" aria-label="Concept map">
+        <div class="node"><b>/setup-matt-pocock-skills</b><span>Finds the repo's working conventions and writes pointers to them.</span></div>
+        <div class="arrow">↓</div>
+        <div class="triad">
+          <div class="node"><b>Issue tracker</b><span>Where work becomes durable tasks.</span></div>
+          <div class="node"><b>Triage labels</b><span>The local vocabulary for issue state.</span></div>
+          <div class="node"><b>Domain docs</b><span>Where the project language and decisions live.</span></div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="node"><b>Engineering skills</b><span><code>diagnose</code>, <code>tdd</code>, <code>to-prd</code>, <code>to-issues</code>, <code>triage</code>, <code>zoom-out</code>, architecture work.</span></div>
+        <div class="pill-row">
+          <span class="pill">less guessing</span><span class="pill">fewer synonyms</span><span class="pill">better issue output</span><span class="pill">decision memory</span>
+        </div>
+      </aside>
+    </header>
+
+    <nav class="toc">
+      <a href="#why">Why this matters</a>
+      <a href="#setup">1. Setup first</a>
+      <a href="#context">3. Domain context</a>
+      <a href="#context-lifecycle">Growing CONTEXT.md</a>
+      <a href="#language">LANGUAGE.md</a>
+      <a href="#relations">How they relate</a>
+      <a href="#consequences">Consequential thinking</a>
+      <a href="#standalone">Standalone use</a>
+      <a href="#practice">How to own it</a>
+      <a href="#sources">Sources</a>
+    </nav>
+
+    <section id="why">
+      <div class="section-head">
+        <div class="kicker">The frame</div>
+        <h2>These skills assume a repo can teach the agent how to behave.</h2>
+      </div>
+      <p class="lead">A first-time user might expect each skill to contain everything it needs. But this repository is designed differently: the skills share a project-specific layer of instructions. That layer tells them where issues live, which labels mean what, where domain language is recorded, and which decisions should not be re-litigated.</p>
+      <div class="quote">Without setup, the agent asks: <span>“What should I assume?”</span><br/>With setup and context, it asks: <span>“What does this project already know?”</span></div>
+      <div class="grid-3">
+        <div class="card gold"><h3>Skills are workflows</h3><p>They are not just tips. A skill like <code>tdd</code> or <code>triage</code> has a protocol: inspect, ask, write, label, test, or stop.</p></div>
+        <div class="card green"><h3>Setup is wiring</h3><p><code>/setup-matt-pocock-skills</code> writes the stable pointers other skills need so they do not rediscover local conventions every time.</p></div>
+        <div class="card blue"><h3>Context is language</h3><p><code>CONTEXT.md</code> defines what project words mean, what synonyms to avoid, and how concepts relate.</p></div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <div class="section-head">
+        <div class="kicker">Point one</div>
+        <h2>Run setup first because it converts vague environment into explicit contract.</h2>
+      </div>
+      <p class="lead"><code>/setup-matt-pocock-skills</code> is not a cosmetic welcome step. It is the bootstrap that answers three questions every serious engineering workflow eventually needs answered.</p>
+      <div class="flow">
+        <div class="step"><h3>Where does work live?</h3><p>The issue tracker may be GitHub, GitLab, local markdown, or another system. Skills that create or triage work need to know the destination before acting.</p></div>
+        <div class="join">→</div>
+        <div class="step"><h3>What do states mean?</h3><p><code>needs-info</code>, <code>ready-for-agent</code>, and <code>wontfix</code> are roles. Your repo may use different label strings for those roles.</p></div>
+        <div class="join">→</div>
+        <div class="step"><h3>Where is memory?</h3><p>The agent needs to know whether domain context is global, split by context, and where ADRs live.</p></div>
+      </div>
+
+      <div class="grid-2" style="margin-top:26px">
+        <div class="card rust">
+          <h3>What setup writes</h3>
+          <p>It adds or updates an <code>## Agent skills</code> block in <code>CLAUDE.md</code> or <code>AGENTS.md</code>, then writes:</p>
+          <ul>
+            <li><code>docs/agents/issue-tracker.md</code></li>
+            <li><code>docs/agents/triage-labels.md</code></li>
+            <li><code>docs/agents/domain.md</code></li>
+          </ul>
+        </div>
+        <div class="card green">
+          <h3>What setup refuses to do</h3>
+          <p>It is deliberately prompt-driven, not a blind script. It should inspect the repo, present findings, ask one decision at a time, show a draft, then write. That matters: setup is where the agent asks for authority instead of silently inventing conventions.</p>
+        </div>
+      </div>
+
+      <pre><code>## Agent skills
+
+### Issue tracker
+[where issues are tracked]. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+[the label vocabulary]. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+[single-context or multi-context]. See `docs/agents/domain.md`.</code></pre>
+    </section>
+
+    <section id="context">
+      <div class="section-head">
+        <div class="kicker">Point three</div>
+        <h2>Domain context matters because names are compressed decisions.</h2>
+      </div>
+      <p class="lead">A domain term is not merely a word. It is a boundary, a history, a set of allowed assumptions, and a warning against nearby wrong ideas. When the agent uses the right term, it inherits all of that. When it uses the wrong synonym, it may accidentally design the wrong thing.</p>
+
+      <div class="compare">
+        <div>
+          <h3>Without domain context</h3>
+          <ul>
+            <li>The agent says “account” because it sounds plausible.</li>
+            <li>Issue titles drift between customer, user, client, account.</li>
+            <li>Tests describe implementation mechanics instead of business behavior.</li>
+            <li>Architecture reviews reopen decisions that were already settled.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>With domain context</h3>
+          <ul>
+            <li>The agent distinguishes <strong>Customer</strong> from <strong>User</strong>.</li>
+            <li>Issues, tests, and PRDs share one vocabulary.</li>
+            <li>Relationships become explicit: one Order produces many Invoices.</li>
+            <li>ADRs explain why surprising decisions exist.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:26px">
+        <div class="card gold">
+          <h3><code>CONTEXT.md</code> is a glossary plus a map</h3>
+          <p>It records canonical terms, aliases to avoid, relationships, example dialogue, and flagged ambiguities. It should contain domain concepts, not general programming concepts.</p>
+        </div>
+        <div class="card blue">
+          <h3>ADRs are memory for non-obvious choices</h3>
+          <p>An ADR is valuable when a decision is hard to reverse, surprising without context, and the result of a real trade-off. It prevents future agents and humans from “fixing” something that was deliberate.</p>
+        </div>
+      </div>
+
+      <pre><code># Context Name
+
+## Language
+
+**Order**:
+A request by a Customer for goods or services.
+_Avoid_: Purchase, transaction
+
+## Relationships
+
+- An **Order** produces one or more **Invoices**
+- An **Invoice** belongs to exactly one **Customer**
+
+## Flagged ambiguities
+
+- "account" was used to mean both **Customer** and **User** — resolved: these are distinct concepts.</code></pre>
+    </section>
+
+    <section id="context-lifecycle">
+      <div class="section-head">
+        <div class="kicker">How context begins</div>
+        <h2><code>CONTEXT.md</code> is populated lazily, then sharpened whenever confusion becomes knowledge.</h2>
+      </div>
+      <p class="lead">Setup does not fill <code>CONTEXT.md</code> with placeholder prose. That restraint is intentional. A context file earns its existence when a real term, relationship, or ambiguity has been resolved.</p>
+      <div class="ladder">
+        <div class="rung"><h3>A fuzzy word appears</h3><p>Someone says “account,” “subscription,” “workspace,” “job,” or another word that could mean more than one thing.</p></div>
+        <div class="rung"><h3>The agent interrogates it</h3><p><code>/grill-with-docs</code> asks one question at a time, checks the code when code can answer, and challenges contradictions with existing glossary terms.</p></div>
+        <div class="rung"><h3>The team resolves the meaning</h3><p>The answer becomes explicit: for example, <strong>Customer</strong> is the paying entity, while <strong>User</strong> is a login identity.</p></div>
+        <div class="rung"><h3>The file is updated immediately</h3><p>The resolved term, aliases to avoid, relationships, and flagged ambiguity are captured in <code>CONTEXT.md</code> while the understanding is still fresh.</p></div>
+      </div>
+      <div class="grid-2" style="margin-top:26px">
+        <div class="card green"><h3>Healthy evolution</h3><ul><li>More precise definitions.</li><li>Fewer ambiguous synonyms.</li><li>Clearer relationships and cardinality.</li><li>Example dialogue that demonstrates boundaries.</li></ul></div>
+        <div class="card rust"><h3>Unhealthy evolution</h3><ul><li>A giant wiki of everything.</li><li>Implementation notes disguised as domain language.</li><li>Stale terms that no one uses.</li><li>Requirements, changelog entries, or plans dumped into the glossary.</li></ul></div>
+      </div>
+      <div class="quote">Setup points to the library. <span><code>/grill-with-docs</code> writes the dictionary.</span> The other skills read it.</div>
+    </section>
+
+    <section id="language">
+      <div class="section-head">
+        <div class="kicker">A separate vocabulary</div>
+        <h2><code>LANGUAGE.md</code> is not project memory. It is the architecture skill’s own dictionary.</h2>
+      </div>
+      <p class="lead">The file <code>skills/engineering/improve-codebase-architecture/LANGUAGE.md</code> is bundled with that skill. It is not created by setup, not created by invoking the skill, and not normally improved by successive runs. It supplies stable architecture terms: <strong>Module</strong>, <strong>Interface</strong>, <strong>Seam</strong>, <strong>Adapter</strong>, <strong>Depth</strong>, <strong>Leverage</strong>, and <strong>Locality</strong>.</p>
+      <div class="compare">
+        <div>
+          <h3><code>CONTEXT.md</code></h3>
+          <ul>
+            <li>Belongs to the project being worked on.</li>
+            <li>May be created lazily.</li>
+            <li>Improves over time as terms are resolved.</li>
+            <li>Names domain concepts like <strong>Order</strong>, <strong>Customer</strong>, <strong>Invoice</strong>.</li>
+          </ul>
+        </div>
+        <div>
+          <h3><code>LANGUAGE.md</code></h3>
+          <ul>
+            <li>Belongs to the architecture skill package.</li>
+            <li>Already exists in the repository.</li>
+            <li>Is treated as stable skill vocabulary.</li>
+            <li>Names architecture concepts like <strong>Module</strong>, <strong>Interface</strong>, <strong>Seam</strong>.</li>
+          </ul>
+        </div>
+      </div>
+      <pre><code>improve-codebase-architecture
+  ├─ reads LANGUAGE.md
+  │   └─ architecture vocabulary shipped with the skill
+  ├─ reads CONTEXT.md / CONTEXT-MAP.md
+  │   └─ project vocabulary discovered through setup's domain rules
+  └─ reads docs/adr/
+      └─ remembered decisions it should not casually re-litigate</code></pre>
+      <p class="lead" style="margin-top:24px">A strong architecture sentence combines both vocabularies: “The <strong>Order</strong> intake <strong>module</strong> has a shallow <strong>interface</strong>; moving validation behind the same <strong>seam</strong> would improve <strong>locality</strong>.” <strong>Order</strong> comes from project context. The rest comes from the skill’s architecture language.</p>
+    </section>
+
+    <section id="relations">
+      <div class="section-head">
+        <div class="kicker">The relation</div>
+        <h2>Setup tells skills where context lives; context tells skills what reality means.</h2>
+      </div>
+      <div class="ladder">
+        <div class="rung"><h3>Setup establishes routes</h3><p>It points to issue tracker rules, label vocabulary, and domain-doc consumer rules.</p></div>
+        <div class="rung"><h3>Domain docs establish language</h3><p>They define what terms mean, what synonyms to avoid, which relationships matter, and which decisions carry history.</p></div>
+        <div class="rung"><h3>Producer skills improve the memory</h3><p><code>grill-with-docs</code> updates <code>CONTEXT.md</code> inline as terms resolve and offers ADRs only when the decision deserves permanence.</p></div>
+        <div class="rung"><h3>Consumer skills reuse the memory</h3><p><code>diagnose</code>, <code>tdd</code>, <code>to-prd</code>, <code>to-issues</code>, <code>triage</code>, <code>zoom-out</code>, and architecture work read the same vocabulary and decisions before producing output.</p></div>
+      </div>
+    </section>
+
+    <section id="consequences">
+      <div class="section-head">
+        <div class="kicker">Consequential thinking</div>
+        <h2>The cost of skipping these steps is not inconvenience. It is drift.</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card rust">
+          <h3>If you skip setup</h3>
+          <ul>
+            <li>Issue-producing skills may not know whether to call <code>gh</code>, <code>glab</code>, write markdown, or ask.</li>
+            <li>Triage may create duplicate labels or apply labels with the wrong meaning.</li>
+            <li>The agent repeatedly spends attention rediscovering conventions.</li>
+            <li>Workflows lose their shared assumptions and become ad hoc prompts.</li>
+          </ul>
+        </div>
+        <div class="card rust">
+          <h3>If you skip domain context</h3>
+          <ul>
+            <li>PRDs, issues, tests, and architecture notes use inconsistent names.</li>
+            <li>Ambiguous words remain ambiguous, so decisions appear settled when they are not.</li>
+            <li>Agents contradict ADRs or reopen past trade-offs by accident.</li>
+            <li>The project accumulates AI prose instead of project knowledge.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="quote">Good setup reduces operational uncertainty. Good context reduces semantic uncertainty. <span>You need both.</span></div>
+    </section>
+
+    <section id="standalone">
+      <div class="section-head">
+        <div class="kicker">Standalone potential</div>
+        <h2>Some skills can work before setup; workflow-writing skills should not have to guess.</h2>
+      </div>
+      <p class="lead">The setup dependency is not equally strong everywhere. Skills that operate on code or conversation can often stand alone. Skills that publish, label, or triage work depend on repo workflow configuration.</p>
+      <div class="grid-3">
+        <div class="card green"><h3>Strong standalone</h3><ul><li><code>prototype</code>: throwaway code to answer a question.</li><li><code>grill-with-docs</code>: can create context lazily.</li><li><code>setup-matt-pocock-skills</code>: the bootstrap itself.</li></ul></div>
+        <div class="card gold"><h3>Usable, but degraded</h3><ul><li><code>diagnose</code>: can debug, but may lack domain language.</li><li><code>tdd</code>: can test behavior, but names improve with context.</li><li><code>zoom-out</code>: can map code, but context improves the map.</li><li><code>improve-codebase-architecture</code>: has <code>LANGUAGE.md</code>, but wants <code>CONTEXT.md</code> and ADRs.</li></ul></div>
+        <div class="card rust"><h3>Setup strongly recommended</h3><ul><li><code>to-prd</code>: wants labels and domain language.</li><li><code>to-issues</code>: needs tracker destination and publishing conventions.</li><li><code>triage</code>: public issue state changes should not be improvised.</li></ul></div>
+      </div>
+    </section>
+
+    <section id="practice">
+      <div class="section-head">
+        <div class="kicker">Owning it</div>
+        <h2>How to use this proficiently, not ceremonially.</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card green">
+          <h3>When entering a new repo</h3>
+          <ul>
+            <li>Run <code>/setup-matt-pocock-skills</code>.</li>
+            <li>Answer the three setup questions with real project behavior, not aspirational behavior.</li>
+            <li>Prefer editing existing <code>CLAUDE.md</code> or <code>AGENTS.md</code> over creating competing instruction files.</li>
+            <li>Keep generated pointers concise; put detail in <code>docs/agents/*.md</code>.</li>
+          </ul>
+        </div>
+        <div class="card gold">
+          <h3>When discussing product or architecture</h3>
+          <ul>
+            <li>Use <code>/grill-with-docs</code> when terms are fuzzy or plans need stress-testing.</li>
+            <li>Let the agent inspect code when code can answer a question.</li>
+            <li>Capture resolved terms immediately in <code>CONTEXT.md</code>.</li>
+            <li>Create ADRs sparingly: only for hard-to-reverse, surprising, trade-off decisions.</li>
+          </ul>
+        </div>
+        <div class="card blue">
+          <h3>When writing issues, tests, or PRDs</h3>
+          <ul>
+            <li>Use glossary vocabulary in titles and acceptance criteria.</li>
+            <li>Prefer business behavior over implementation trivia.</li>
+            <li>Flag missing terms as a context gap, not as a reason to invent synonyms.</li>
+            <li>Make vertical slices that a future agent can pick up without hidden context.</li>
+          </ul>
+        </div>
+        <div class="card rust">
+          <h3>When maintaining context</h3>
+          <ul>
+            <li>Delete stale terms; stale context is worse than absent context.</li>
+            <li>Record aliases to avoid, not just preferred words.</li>
+            <li>Use example dialogue to reveal boundaries between concepts.</li>
+            <li>Review ADRs before changing architectural direction.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="sources" class="sources">
+      <div class="section-head">
+        <div class="kicker">Grounding</div>
+        <h2>Where this reading comes from.</h2>
+      </div>
+      <p><strong>Local repository files:</strong> <code>skills/engineering/setup-matt-pocock-skills/SKILL.md</code>, <code>skills/engineering/setup-matt-pocock-skills/domain.md</code>, <code>skills/engineering/grill-with-docs/SKILL.md</code>, <code>skills/engineering/grill-with-docs/CONTEXT-FORMAT.md</code>, <code>skills/engineering/grill-with-docs/ADR-FORMAT.md</code>, <code>skills/engineering/improve-codebase-architecture/SKILL.md</code>, <code>skills/engineering/improve-codebase-architecture/LANGUAGE.md</code>, <code>skills/engineering/improve-codebase-architecture/DEEPENING.md</code>, <code>skills/engineering/improve-codebase-architecture/INTERFACE-DESIGN.md</code>, plus related engineering skill files for <code>diagnose</code>, <code>tdd</code>, <code>to-prd</code>, <code>to-issues</code>, <code>triage</code>, and <code>zoom-out</code>.</p>
+      <p><strong>External conceptual support:</strong> Anthropic/Claude Code docs on <a href="https://docs.anthropic.com/en/docs/claude-code/memory">memory and CLAUDE.md</a>, <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview">Agent Skills</a>, and <a href="https://docs.anthropic.com/en/docs/claude-code/best-practices">Claude Code best practices</a>.</p>
+      <p class="small">Maintainer note: the README mentions Linear in the quickstart, while the setup skill currently offers GitHub, GitLab, local markdown, and Other. That may be intentional via “Other,” but it is worth aligning if this page becomes official documentation.</p>
+    </section>
+  </main>
+</body>
+</html>
