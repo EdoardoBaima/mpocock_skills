@@ -10,7 +10,7 @@ Write a concise handoff document for a fresh pi agent. The goal is not to summar
 
 ## Process
 
-1. **Create a temporary markdown file.** Prefer:
+1. **Create a temporary markdown file outside the workspace.** Save the handoff in the OS temp directory, not the current repository or workspace. Prefer:
 
    ```bash
    mktemp -t handoff-XXXXXX.md
@@ -22,9 +22,11 @@ Write a concise handoff document for a fresh pi agent. The goal is not to summar
 
 3. **Tailor to the user's argument.** If the user invoked the skill with a focus like "next session should implement the parser", optimize the handoff for that next task.
 
-4. **Suggest next-session skills.** Mention any relevant `/skill:<name>` invocations, for example `/skill:diagnose`, `/skill:tdd`, `/skill:triage`, `/skill:grill-with-docs`, or `/skill:prototype`.
+4. **Redact sensitive information.** Do not include API keys, passwords, secrets, tokens, private URLs, or personally identifiable information. If such details matter, describe where the next session can find them safely.
 
-5. **Write the file, then report the path.** Do not paste the whole handoff back unless the user asks. Give the file path and a 1–2 sentence summary of what it contains.
+5. **Suggest next-session skills.** Mention any relevant `/skill:<name>` invocations, for example `/skill:diagnose`, `/skill:tdd`, `/skill:triage`, `/skill:grill-with-docs`, or `/skill:prototype`.
+
+6. **Write the file, then report the path.** Do not paste the whole handoff back unless the user asks. Give the file path and a 1–2 sentence summary of what it contains.
 
 ## Handoff template
 
@@ -76,5 +78,6 @@ Write a concise handoff document for a fresh pi agent. The goal is not to summar
 - Prefer bullets over prose.
 - Preserve user intent and decisions, not conversational filler.
 - Include exact file paths, branch names, issue numbers, and commands where they matter.
+- Redact sensitive information before writing.
 - Flag uncertainty explicitly instead of smoothing it over.
 - Do not invent status. If you did not verify something, say so.
