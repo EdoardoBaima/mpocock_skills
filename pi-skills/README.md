@@ -4,7 +4,7 @@ This folder is a pi-native copy of the selected upstream skills. It is intention
 
 ## Included
 
-- `productivity/*` — including `handoff` for durable cross-session continuity and `skills-inventory-report` for visual inventory comparisons
+- `productivity/*` — including `handoff` for durable cross-session continuity, `skills-inventory-report` for visual inventory comparisons, and `teach` for stateful learning workspaces
 - `engineering/setup-matt-pocock-skills`
 - `engineering/grill-with-docs`
 - `engineering/diagnose`
