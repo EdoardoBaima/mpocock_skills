@@ -1,20 +1,41 @@
 # Pi-adapted Matt Pocock skills
 
-This folder is a pi-native copy of the selected upstream skills. It is intentionally separate from `skills/` so upstream content stays clean.
+This folder is the pi-native adaptation layer for upstream Matt Pocock skills. It is intentionally separate from `skills/` so upstream content stays clean.
+
+## Adaptation policy
+
+Mirror upstream's public skill model deliberately: names, removals, and user-invoked vs model-invoked taxonomy should follow upstream unless a pi-specific exception is written down.
+
+Adapt content for pi, not for backwards compatibility: use `/skill:<name>`, pi-native tools, and this repo's workflow conventions. Do not keep aliases or removed skills just because they existed before.
+
+Project-maintenance skills for this fork live under `.pi/skills/`, not in this globally installable adaptation layer.
 
 ## Included
 
-- `productivity/*` — including `handoff` for durable cross-session continuity, `skills-inventory-report` for visual inventory comparisons, and `teach` for stateful learning workspaces
-- `engineering/setup-matt-pocock-skills`
+### Engineering
+
+- `engineering/ask-matt`
 - `engineering/grill-with-docs`
-- `engineering/diagnose`
+- `engineering/triage`
 - `engineering/improve-codebase-architecture`
-- `engineering/prototype`
-- `engineering/tdd`
+- `engineering/setup-matt-pocock-skills`
 - `engineering/to-issues`
 - `engineering/to-prd`
-- `engineering/triage`
-- `engineering/zoom-out`
+- `engineering/prototype`
+- `engineering/implement`
+- `engineering/diagnosing-bugs`
+- `engineering/tdd`
+- `engineering/domain-modeling`
+- `engineering/codebase-design`
+- `engineering/resolving-merge-conflicts`
+
+### Productivity
+
+- `productivity/grill-me`
+- `productivity/handoff`
+- `productivity/teach`
+- `productivity/writing-great-skills`
+- `productivity/grilling`
 
 ## Install globally in pi
 
@@ -34,17 +55,16 @@ Copy-Item -Recurse -Force pi-skills/productivity/* "$HOME/.pi/agent/skills/"
 Copy-Item -Recurse -Force pi-skills/engineering/* "$HOME/.pi/agent/skills/"
 ```
 
-Restart pi or run `/reload`. Invoke skills with `/skill:<name>`, for example:
+Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, for example:
 
 ```text
-/skill:tdd
-/skill:diagnose
+/skill:ask-matt
 /skill:grill-with-docs
+/skill:writing-great-skills
 ```
 
 ## Pi-specific changes
 
 - Slash-command references use pi's `/skill:<name>` form.
 - `setup-matt-pocock-skills` prefers `AGENTS.md` for pi-native projects while preserving `CLAUDE.md` compatibility.
-- Claude-specific `Agent tool` wording was replaced with direct pi tool exploration, with optional `pi-subagents` wording where useful.
 - `.claude-plugin/plugin.json` is intentionally not used.
