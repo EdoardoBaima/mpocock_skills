@@ -21,12 +21,13 @@ Project-maintenance skills for this fork live under `.pi/skills/`, not in this g
 - `engineering/setup-matt-pocock-skills`
 - `engineering/to-issues`
 - `engineering/to-prd`
-- `engineering/prototype`
 - `engineering/implement`
+- `engineering/prototype`
 - `engineering/diagnosing-bugs`
 - `engineering/tdd`
 - `engineering/domain-modeling`
 - `engineering/codebase-design`
+- `engineering/code-review`
 - `engineering/resolving-merge-conflicts`
 
 ### Productivity
@@ -37,6 +38,18 @@ Project-maintenance skills for this fork live under `.pi/skills/`, not in this g
 - `productivity/writing-great-skills`
 - `productivity/grilling`
 
+### In progress
+
+These upstream skills are included because they are useful in pi, but they may still change more often than promoted skills.
+
+- `in-progress/decision-mapping`
+- `in-progress/loop-me`
+- `in-progress/wizard`
+
+### Human-facing docs
+
+Pi-adapted human-facing pages live under `docs/engineering` and `docs/productivity`. They keep upstream's explanatory shape but use pi install and invocation examples.
+
 ## Install globally in pi
 
 Copy the skill directories into pi's global skills folder:
@@ -45,6 +58,7 @@ Copy the skill directories into pi's global skills folder:
 mkdir -p ~/.pi/agent/skills
 cp -R pi-skills/productivity/* ~/.pi/agent/skills/
 cp -R pi-skills/engineering/* ~/.pi/agent/skills/
+cp -R pi-skills/in-progress/* ~/.pi/agent/skills/
 ```
 
 PowerShell equivalent:
@@ -53,18 +67,22 @@ PowerShell equivalent:
 New-Item -ItemType Directory -Force "$HOME/.pi/agent/skills" | Out-Null
 Copy-Item -Recurse -Force pi-skills/productivity/* "$HOME/.pi/agent/skills/"
 Copy-Item -Recurse -Force pi-skills/engineering/* "$HOME/.pi/agent/skills/"
+Copy-Item -Recurse -Force pi-skills/in-progress/* "$HOME/.pi/agent/skills/"
 ```
 
 Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, for example:
 
 ```text
 /skill:ask-matt
-/skill:grill-with-docs
-/skill:writing-great-skills
+/skill:code-review
+/skill:decision-mapping
+/skill:loop-me
+/skill:wizard
 ```
 
 ## Pi-specific changes
 
 - Slash-command references use pi's `/skill:<name>` form.
 - `setup-matt-pocock-skills` prefers `AGENTS.md` for pi-native projects while preserving `CLAUDE.md` compatibility.
+- `code-review` uses pi subagents rather than Claude-specific agent wording.
 - `.claude-plugin/plugin.json` is intentionally not used.

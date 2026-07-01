@@ -44,6 +44,12 @@ Default posture: these skills were designed for GitHub. If a `git remote` points
 - **Local markdown** — issues live as files under `.scratch/<feature>/` in this repo (good for solo projects or repos without a remote)
 - **Other** (Jira, Linear, etc.) — ask the user to describe the workflow in one paragraph; the skill will record it as freeform prose
 
+If — and only if — the user picked **GitHub** or **GitLab**, ask one follow-up:
+
+> Explainer: Open-source repos often receive feature requests as pull requests, not just issues — a PR is an issue with attached code. If you turn this on, `/skill:triage` pulls *external* PRs into the same queue and runs them through the same labels and states as issues (collaborators' in-flight PRs are left alone). Leave it off if PRs aren't a request surface for you.
+
+- **PRs as a request surface** — yes / no (default: no). Record the answer in `docs/agents/issue-tracker.md`. For local-markdown and other trackers, skip this question — there are no PRs.
+
 **Section B — Triage label vocabulary.**
 
 > Explainer: When the `triage` skill processes an incoming issue, it moves it through a state machine — needs evaluation, waiting on reporter, ready for an AFK agent to pick up, ready for a human, or won't fix. To do that, it needs to apply labels (or the equivalent in your issue tracker) that match strings *you've actually configured*. If your repo already uses different label names (e.g. `bug:triage` instead of `needs-triage`), map them here so the skill applies the right ones instead of creating duplicates.
@@ -71,7 +77,7 @@ Confirm the layout:
 
 Show the user a draft of:
 
-- The `## Agent skills` block to add to whichever of `AGENTS.md` / `CLAUDE.md` is being edited (see step 4 for selection rules)
+- The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
 - The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`
 
 Let them edit before writing.
@@ -82,9 +88,9 @@ Let them edit before writing.
 
 - If `AGENTS.md` exists, edit it.
 - Else if `CLAUDE.md` exists, edit it for compatibility with projects that already use it.
-- If neither exists, ask the user which one to create. Recommend `AGENTS.md` for pi-native projects, but don't pick for them.
+- If neither exists, ask the user which one to create. Recommend `AGENTS.md` for pi-native projects, but do not pick for them.
 
-Never create `AGENTS.md` when `CLAUDE.md` already exists (or vice versa) without asking — edit the one that's already there.
+Never create `AGENTS.md` when `CLAUDE.md` already exists, or vice versa, without asking. Edit the one that is already there.
 
 If an `## Agent skills` block already exists in the chosen file, update its contents in-place rather than appending a duplicate. Don't overwrite user edits to the surrounding sections.
 
@@ -95,7 +101,7 @@ The block:
 
 ### Issue tracker
 
-[one-line summary of where issues are tracked]. See `docs/agents/issue-tracker.md`.
+[one-line summary of where issues are tracked, plus whether external PRs are a triage surface]. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
