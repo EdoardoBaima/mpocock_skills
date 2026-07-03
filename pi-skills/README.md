@@ -24,10 +24,11 @@ Project-maintenance skills for this fork live under `.pi/skills/`, not in this g
 - `engineering/implement`
 - `engineering/prototype`
 - `engineering/diagnosing-bugs`
+- `engineering/research`
 - `engineering/tdd`
 - `engineering/domain-modeling`
 - `engineering/codebase-design`
-- `engineering/code-review`
+- `engineering/matt-review`
 - `engineering/resolving-merge-conflicts`
 
 ### Productivity
@@ -42,7 +43,7 @@ Project-maintenance skills for this fork live under `.pi/skills/`, not in this g
 
 These upstream skills are included because they are useful in pi, but they may still change more often than promoted skills.
 
-- `in-progress/decision-mapping`
+- `in-progress/wayfinder`
 - `in-progress/loop-me`
 - `in-progress/wizard`
 
@@ -74,8 +75,8 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 
 ```text
 /skill:ask-matt
-/skill:code-review
-/skill:decision-mapping
+/skill:matt-review
+/skill:wayfinder
 /skill:loop-me
 /skill:wizard
 ```
@@ -84,5 +85,7 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 
 - Slash-command references use pi's `/skill:<name>` form.
 - `setup-matt-pocock-skills` prefers `AGENTS.md` for pi-native projects while preserving `CLAUDE.md` compatibility.
-- `code-review` uses pi subagents rather than Claude-specific agent wording.
+- `matt-review` is the pi name for upstream `code-review`, to avoid clashing with other review skills and extensions.
+- `matt-review` uses pi subagents rather than Claude-specific agent wording.
+- `research` uses pi subagents and pi web tools when reading online primary sources.
 - `.claude-plugin/plugin.json` is intentionally not used.

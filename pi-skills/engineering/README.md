@@ -17,8 +17,9 @@ Pi-adapted engineering skills from upstream's public skill model.
 
 - **[prototype](./prototype/SKILL.md)** — Build a throwaway prototype to answer a design question.
 - **[diagnosing-bugs](./diagnosing-bugs/SKILL.md)** — Diagnose hard bugs and performance regressions with a tight feedback loop.
+- **[research](./research/SKILL.md)** — Investigate questions against primary sources with a pi subagent and save a cited Markdown note.
 - **[tdd](./tdd/SKILL.md)** — Build features or fixes test-first with a red-green loop at pre-agreed seams.
 - **[domain-modeling](./domain-modeling/SKILL.md)** — Build and sharpen a project's domain model.
 - **[codebase-design](./codebase-design/SKILL.md)** — Use deep-module vocabulary for codebase design.
-- **[code-review](./code-review/SKILL.md)** — Review a diff on Standards and Spec axes with parallel sub-agents.
+- **[matt-review](./matt-review/SKILL.md)** — Pi name for upstream `code-review`; reviews a diff on Standards and Spec axes with parallel sub-agents.
 - **[resolving-merge-conflicts](./resolving-merge-conflicts/SKILL.md)** — Resolve an in-progress git merge or rebase conflict.

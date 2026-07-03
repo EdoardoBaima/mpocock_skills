@@ -4,6 +4,6 @@ Pi-adapted in-progress skills from upstream. These are useful enough to try in p
 
 ## User-invoked
 
-- **[decision-mapping](./decision-mapping/SKILL.md)** — Turn a loose idea into a compact map of research, prototype, grilling, and task tickets.
+- **[wayfinder](./wayfinder/SKILL.md)** — Plan work that is too large for one session as a shared map of investigation tickets on the issue tracker.
 - **[loop-me](./loop-me/SKILL.md)** — Grill workflow loops into implementable specs under `workflows/*.md`.
 - **[wizard](./wizard/SKILL.md)** — Generate an interactive bash wizard for a manual setup, migration, or state transition.

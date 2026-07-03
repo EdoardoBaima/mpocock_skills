@@ -1,27 +1,27 @@
 Quickstart for pi:
 
-Copy `pi-skills/engineering/code-review` into your pi skills directory, then reload pi.
+Copy `pi-skills/engineering/matt-review` into your pi skills directory, then reload pi.
 
 ```bash
 mkdir -p ~/.pi/agent/skills
-cp -R pi-skills/engineering/code-review ~/.pi/agent/skills/
+cp -R pi-skills/engineering/matt-review ~/.pi/agent/skills/
 ```
 
-Invoke it as `/skill:code-review`.
+Invoke it as `/skill:matt-review`.
 
-[Pi-adapted source](../../engineering/code-review/SKILL.md)
+[Pi-adapted source](../../engineering/matt-review/SKILL.md)
 
 [Upstream source](https://github.com/mattpocock/skills/tree/main/skills/engineering/code-review)
 
 ## What it does
 
-`code-review` reviews the diff between `HEAD` and a fixed point you supply — a commit, branch, tag, or merge-base — along two separate axes: **Standards** (does the code follow this repo's documented conventions?) and **Spec** (does it implement what the originating issue or PRD asked for?). It runs each axis as its own parallel sub-agent and reports them side by side. It never merges or re-ranks the two sets of findings — keeping them separate is the whole point, because a change can pass one axis and fail the other, and a single blended verdict lets one mask the other.
+`matt-review` is the pi name for upstream `code-review`. It reviews the diff between `HEAD` and a fixed point you supply — a commit, branch, tag, or merge-base — along two separate axes: **Standards** (does the code follow this repo's documented conventions?) and **Spec** (does it implement what the originating issue or PRD asked for?). It runs each axis as its own parallel sub-agent and reports them side by side. It never merges or re-ranks the two sets of findings — keeping them separate is the whole point, because a change can pass one axis and fail the other, and a single blended verdict lets one mask the other.
 
 ## When to reach for it
 
-Type `/skill:code-review`, or the agent reaches for it automatically when you ask to review a branch, a PR, work-in-progress changes, or anything "since X".
+Type `/skill:matt-review`, or the agent reaches for it automatically when you ask to review a branch, a PR, work-in-progress changes, or anything "since X".
 
-Reach for this when there is a diff to judge against a known-good point and you want the two questions — *is it built right?* and *is it the right thing?* — answered independently. It runs at the end of the build loop; for actually writing the code test-first, use [tdd](https://aihero.dev/skills-tdd), and for building a whole spec into code use [implement](https://aihero.dev/skills-implement), which runs its own `/skill:code-review` pass before committing.
+Reach for this when there is a diff to judge against a known-good point and you want the two questions — *is it built right?* and *is it the right thing?* — answered independently. It runs at the end of the build loop; for actually writing the code test-first, use [tdd](https://aihero.dev/skills-tdd), and for building a whole spec into code use [implement](https://aihero.dev/skills-implement), which runs its own `/skill:matt-review` pass before committing.
 
 ## Prerequisites
 
@@ -41,10 +41,10 @@ They run as parallel sub-agents so neither pollutes the other's context, and the
 
 ## Where it fits
 
-`code-review` is the review step at the tail of the main build chain:
+`matt-review` is the review step at the tail of the main build chain:
 
 ```txt
-grill-with-docs → to-prd → to-issues → implement → code-review
+grill-with-docs → to-prd → to-issues → implement → matt-review
 ```
 
 Its closest neighbour is [implement](https://aihero.dev/skills-implement), which drives the build and calls this as its own review pass before committing; upstream, the spec it checks against is produced by [to-prd](https://aihero.dev/skills-to-prd) and [to-issues](https://aihero.dev/skills-to-issues). When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
