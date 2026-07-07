@@ -41,7 +41,7 @@ The rest of the reference is the toolkit for spending those loads well:
 - **Leading words** — a compact concept already in the model's pretraining (_tight_, _red_, _tracer bullet_) that the agent thinks with while running the skill. It anchors execution *and* invocation in the fewest tokens; hunt restatements that a single word can retire.
 - **Information hierarchy** — the ladder from in-skill step, to in-skill reference, to external reference behind a **context pointer**. **Progressive disclosure** is the move down that ladder so the top stays legible.
 - **Pruning** — single source of truth, relevance, and the no-op test applied sentence by sentence, against **sediment** and **sprawl**.
-- **Failure modes** — **premature completion**, **duplication**, **sediment**, **sprawl**, **no-op** — to diagnose a skill that isn't behaving.
+- **Failure modes** — **premature completion**, **duplication**, **sediment**, **sprawl**, **no-op**, and **negation** — to diagnose a skill that isn't behaving.
 
 ## Where it fits
 
