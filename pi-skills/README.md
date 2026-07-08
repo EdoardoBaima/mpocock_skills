@@ -19,9 +19,10 @@ Project-maintenance skills for this fork live under `.pi/skills/`, not in this g
 - `engineering/triage`
 - `engineering/improve-codebase-architecture`
 - `engineering/setup-matt-pocock-skills`
-- `engineering/to-issues`
-- `engineering/to-prd`
+- `engineering/to-spec`
+- `engineering/to-tickets`
 - `engineering/implement`
+- `engineering/wayfinder`
 - `engineering/prototype`
 - `engineering/diagnosing-bugs`
 - `engineering/research`
@@ -43,7 +44,6 @@ Project-maintenance skills for this fork live under `.pi/skills/`, not in this g
 
 These upstream skills are included because they are useful in pi, but they may still change more often than promoted skills.
 
-- `in-progress/wayfinder`
 - `in-progress/loop-me`
 - `in-progress/wizard`
 
@@ -75,8 +75,10 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 
 ```text
 /skill:ask-matt
-/skill:matt-review
+/skill:to-spec
+/skill:to-tickets
 /skill:wayfinder
+/skill:matt-review
 /skill:loop-me
 /skill:wizard
 ```

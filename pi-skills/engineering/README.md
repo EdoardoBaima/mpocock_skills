@@ -9,9 +9,10 @@ Pi-adapted engineering skills from upstream's public skill model.
 - **[triage](./triage/SKILL.md)** — Move issues and external pull requests through the triage state machine.
 - **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)** — Scan for deepening opportunities and review them visually.
 - **[setup-matt-pocock-skills](./setup-matt-pocock-skills/SKILL.md)** — Configure issue tracker, triage labels, and domain docs for a repo.
-- **[to-issues](./to-issues/SKILL.md)** — Break a plan or PRD into independently grabbable issues.
-- **[to-prd](./to-prd/SKILL.md)** — Turn the current conversation into a PRD on the issue tracker.
-- **[implement](./implement/SKILL.md)** — Implement work from a PRD or set of issues.
+- **[to-spec](./to-spec/SKILL.md)** — Turn the current conversation into a spec on the issue tracker.
+- **[to-tickets](./to-tickets/SKILL.md)** — Break a plan, spec, or conversation into tracer-bullet tickets with blocking edges.
+- **[implement](./implement/SKILL.md)** — Implement work from a spec or set of tickets.
+- **[wayfinder](./wayfinder/SKILL.md)** — Plan work that is too large for one session as a shared map of investigation tickets.
 
 ## Model-invoked
 

@@ -31,4 +31,4 @@ For online material, the subagent should use pi's web tools — `web_search`, `f
 
 ## Where it fits
 
-A reach-for-it-anytime standalone that feeds the thinking skills: the file it produces is something to grill, plan, or design against, so it sits upstream of work like [grilling](https://aihero.dev/skills-grilling) and [to-prd](https://aihero.dev/skills-to-prd) rather than in the build chain. For the whole map, see [ask-matt](https://aihero.dev/skills-ask-matt).
+A reach-for-it-anytime standalone that feeds the thinking skills: the file it produces is something to grill, plan, or design against, so it sits upstream of work like [grilling](https://aihero.dev/skills-grilling) and [to-spec](https://aihero.dev/skills-to-spec) rather than in the build chain. For the whole map, see [ask-matt](https://aihero.dev/skills-ask-matt).
