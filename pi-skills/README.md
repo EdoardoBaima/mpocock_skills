@@ -51,6 +51,21 @@ These upstream skills are included because they are useful in pi, but they may s
 
 Pi-adapted human-facing pages live under `docs/engineering` and `docs/productivity`. They keep upstream's explanatory shape but use pi install and invocation examples.
 
+## Intentional upstream omissions
+
+The inventory report may show upstream skills missing from `pi-skills/`. Missing does not automatically mean drift: `pi-skills/` is curated, not mirrored.
+
+Current intentional omissions:
+
+- `code-review` is covered by pi's `matt-review` adaptation.
+- `claude-handoff` stays upstream-only because pi already has `handoff`, subagents, and intercom patterns.
+- `setup-pre-commit`, `scaffold-exercises`, and `migrate-to-shoehorn` stay upstream-only until there is a recurring pi-specific use case.
+- `edit-article` and `obsidian-vault` stay upstream-only because they are personal/workspace-specific.
+- `writing-fragments`, `writing-beats`, and `writing-shape` stay upstream-only because they are not core pi engineering skills.
+- Deprecated upstream skills stay upstream-only unless they are revived upstream and still make sense in pi.
+
+When upstream adds a skill, decide explicitly whether to port it, defer it, or record it here as upstream-only.
+
 ## Install globally in pi
 
 Copy the skill directories into pi's global skills folder:
