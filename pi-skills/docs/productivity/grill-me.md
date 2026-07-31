@@ -17,7 +17,7 @@ Invoke it as `/skill:grill-me`.
 
 `grill-me` runs a relentless interview about a plan or design, walking every branch of the decision tree until you and the agent reach a **shared understanding**.
 
-It asks **one question at a time** and waits. It never dumps a batch of questions at you — that is bewildering. It looks up facts the codebase can settle, but it brings decisions back to you and waits for your answer. Each question comes with the agent's own recommended answer, so you are reacting to a proposal, not staring at a blank prompt.
+It asks **one question at a time** and waits. It never dumps a batch of questions at you — that is bewildering. It looks up facts the environment can settle, but it brings decisions back to you and waits for your answer. Each question comes with the agent's own recommended answer, so you are reacting to a proposal, not staring at a blank prompt.
 
 ## When to reach for it
 
@@ -25,7 +25,7 @@ You invoke this by typing `/skill:grill-me` — the agent won't reach for it on 
 
 Reach for it before you build, when a plan feels roughly right but you can sense unresolved decisions hiding in it — the moment you want the soft spots found and forced into the open. If you want that same interrogation to also leave a paper trail of ADRs and a glossary behind, use [grill-with-docs](https://aihero.dev/skills-grill-with-docs) instead.
 
-## The design tree
+## The decision tree
 
 The session walks the plan as a tree of decisions, resolving dependencies between them one by one — a parent decision settled before the choices that hang off it. The point is not to reach agreement quickly; it is to make every implicit call explicit, so nothing important is left silently assumed. You come out the other side with a plan whose branches have all been visited.
 

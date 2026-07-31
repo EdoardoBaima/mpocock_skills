@@ -17,7 +17,7 @@ Invoke it as `/skill:setup-matt-pocock-skills`.
 
 `setup-matt-pocock-skills` teaches one repo how the engineering skills should behave in it — where issues live, what the triage labels are called, and where the domain docs sit — and records those answers as **config** the other skills read.
 
-It writes config, it does not hard-code behaviour. The engineering chain assumes three files under `docs/agents/` exist; this skill is the one-time bootstrap that produces them, discovered from your actual repo (`git remote`, existing labels, existing `CONTEXT.md`) and confirmed with you rather than guessed. It is prompt-driven — explore, present what it found, confirm, then write — not a deterministic scaffold.
+It writes config, it does not hard-code behaviour. The engineering chain assumes three files under `docs/agents/`; this skill is the one-time bootstrap that produces them, discovered from your actual repo (`git remote`, installed skills, monorepo signals, existing domain docs) and confirmed with you rather than guessed. It is prompt-driven — explore, present what it found, confirm, then write — not a deterministic scaffold.
 
 ## When to reach for it
 
@@ -27,17 +27,17 @@ Reach for it **once per repo, before the first use of any other engineering skil
 
 ## The three decisions
 
-It walks you through three choices, one at a time, each with a plain-language explainer (it assumes you don't already know the terms):
+It leads each choice with a recommended answer you can accept in a word, and skips whatever it can already infer — so most runs need only a couple of quick confirmations:
 
-- **Issue tracker** — where work is tracked, so `triage`/`to-spec`/`to-tickets` know whether to call `gh`, `glab`, write markdown under `.scratch/`, or follow a workflow you describe. GitHub, GitLab, local markdown, or other.
-- **Triage labels** — the strings behind the five canonical roles (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`), mapped to labels you've actually configured so `triage` applies real ones instead of creating duplicates.
-- **Domain docs** — whether the repo has one `CONTEXT.md` or a multi-context map, so skills that read domain language look in the right place.
+- **Issue tracker** — where work is tracked, so `triage`/`to-spec`/`to-tickets` know whether to call `gh`, `glab`, write markdown under `.scratch/`, or follow a workflow you describe. It proposes the tracker that matches your `git remote`.
+- **Triage labels** — the canonical defaults (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) are always written because tracker-facing skills share them. If `triage` is installed, it asks whether to keep them; otherwise it writes them without asking.
+- **Domain docs** — assumed single-context (one `CONTEXT.md` plus `docs/adr/` at the root), which fits almost every repo; it raises a multi-context map only when it spots monorepo signals.
 
-The output is three files — `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md` — plus an `## Agent skills` block pointing to them. In pi, it prefers `AGENTS.md` when present, while preserving `CLAUDE.md` compatibility for repos that already use it. Those files are the shared substrate the rest of the toolkit stands on.
+The output is three files — `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, and `docs/agents/domain.md` — plus an `## Agent skills` block pointing to them. In pi, it prefers `AGENTS.md` when present, while preserving `CLAUDE.md` compatibility for repos that already use it. Those files are the shared substrate the rest of the toolkit stands on.
 
 ## It's working if
 
-- Three files land under `docs/agents/`, and an `## Agent skills` section appears in your `CLAUDE.md` or `AGENTS.md`.
+- Three files land under `docs/agents/`, and an `## Agent skills` section appears in your `AGENTS.md` or `CLAUDE.md`.
 - The tracker it proposes matches your real `git remote`, and the labels match strings that already exist in your repo.
 - Afterwards, `triage` and `to-tickets` act on the right place with the right labels instead of asking or guessing.
 

@@ -44,7 +44,10 @@ Project-maintenance skills for this fork live under `.pi/skills/`, not in this g
 
 These upstream skills are included because they are useful in pi, but they may still change more often than promoted skills.
 
+- `in-progress/batch-grill-me`
 - `in-progress/loop-me`
+- `in-progress/setup-ts-deep-modules`
+- `in-progress/to-questionnaire`
 - `in-progress/wizard`
 
 ### Human-facing docs
@@ -94,7 +97,10 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 /skill:to-tickets
 /skill:wayfinder
 /skill:matt-review
+/skill:batch-grill-me
 /skill:loop-me
+/skill:setup-ts-deep-modules
+/skill:to-questionnaire
 /skill:wizard
 ```
 
@@ -105,4 +111,6 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 - `matt-review` is the pi name for upstream `code-review`, to avoid clashing with other review skills and extensions.
 - `matt-review` uses pi subagents rather than Claude-specific agent wording.
 - `research` uses pi subagents and pi web tools when reading online primary sources.
+- `setup-ts-deep-modules` treats the TypeScript configuration and scan targets as repository-specific, proves all five rules, and records the language-independent invariants for later adaptations.
+- `wayfinder` uses `pi-subagents` for parallel frontier research. The parent session owns claims, report checks, ticket closure, and sequential map updates; researchers write only to distinct report paths.
 - `.claude-plugin/plugin.json` is intentionally not used.

@@ -17,7 +17,7 @@ Invoke it as `/skill:prototype`.
 
 `prototype` builds a small, disposable program whose only job is to answer one design question — does this state model feel right, or what should this UI look like.
 
-The code is **throwaway from day one**, and marked as such. It carries no tests, no error handling beyond what makes it run, no abstractions, and no persistence. The point is to learn something fast and then delete it — so the moment you start hardening it, you've stopped prototyping.
+The code is **throwaway from day one**, and marked as such. It carries no tests, no error handling beyond what makes it run, no abstractions, and no persistence. The point is to learn something fast, then keep production clean — so the moment you start hardening the prototype, you've stopped prototyping.
 
 ## When to reach for it
 
@@ -34,9 +34,11 @@ The question decides the shape, and there are two shapes:
 
 Picking the wrong branch wastes the whole prototype, so the question comes first. Both branches keep state in memory, run from one command, and surface the full state on every step.
 
-## The answer is the artifact
+## Keep the prototype as a primary source
 
-The code is disposable; the **answer** is the only thing worth keeping. When the prototype has settled its question, capture the verdict somewhere durable — a commit message, an ADR, an issue, or a `NOTES.md` next to it — alongside the question it answered, then delete or absorb the code. A prototype left rotting in the repo has outlived its purpose.
+A finished prototype leaves two things. The **answer** — the verdict plus the question it settled — is what you capture durably in a commit message, an ADR, or an issue. The **prototype itself is a primary source** — the runnable evidence the answer came from.
+
+The prototype doesn't belong in the main branch: no tests, no error handling, nothing to maintain. But that's not a reason to destroy it. Once the answer is captured, fold any validated decision into the real code, then capture the prototype on a throwaway branch — out of main, never merged — and leave a context pointer to it on the source or implementation issue, or in the return handoff when no issue exists yet. The main branch stays clean; the raw exploration stays one click away for anyone who wants to re-run it.
 
 ## Where it fits
 

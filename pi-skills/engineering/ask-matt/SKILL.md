@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 You don't remember every skill, so ask.
 
-A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or a vocabulary layer that runs underneath.
+A **flow** is a path through the skills. Most paths run along one **main flow**, and several **on-ramps** merge onto it. Everything else is standalone, or a vocabulary layer that runs underneath.
 
 ## The main flow: idea → ship
 
@@ -20,7 +20,7 @@ The route most work travels. You have an idea and want it built.
    - **`/skill:prototype`** to answer the question with throwaway code,
    - **`/skill:handoff`** back what you learned, and reference it from the original idea thread.
 3. **Branch — is this a multi-session build?**
-   - **Yes** → **`/skill:to-spec`** (turn the thread into a spec), then **`/skill:to-tickets`** to split it into tracer-bullet tickets, each declaring its **blocking edges**. On a local tracker that's an ordered `tickets.md` you work by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed — kick off **`/skill:implement`** per ticket, **clearing context between each one**.
+   - **Yes** → **`/skill:to-spec`** (turn the thread into a spec), then **`/skill:to-tickets`** to split it into tracer-bullet tickets, each declaring its **blocking edges**. On a local tracker that's one file per ticket under `.scratch/<feature>/issues/`, worked blockers-first by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed — kick off **`/skill:implement`** per ticket, **clearing context between each one**.
    - **No** → **`/skill:implement`** right here, in the same context window.
 
    Either way, **`/skill:implement`** builds each ticket by driving **`/skill:tdd`** internally — one red-green slice at a time — then closes out by running **`/skill:matt-review`**, a two-axis review (Standards + Spec) of the diff, before committing. Reach for **`/skill:tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/skill:matt-review`** on its own whenever you want to review a branch or PR against a fixed point.
@@ -41,7 +41,9 @@ A starting situation that generates work, then merges onto the main flow.
 
 - **Something's broken** → **`/skill:diagnosing-bugs`**. For the hard ones: the bug that resists a first glance, the intermittent flake, the regression that crept in between two known-good states. It refuses to theorise until it has a **tight feedback loop** — one command that already goes red on *this* bug — then fixes with a regression test. Its post-mortem hands off to **`/skill:improve-codebase-architecture`** when the real finding is that there's no good seam to lock the bug down.
 
-- **A huge, foggy effort — a greenfield project or a huge feature build, too big for one session** → **`/skill:wayfinder`**. When the way from here to the destination isn't visible yet, it charts a **shared map** of investigation tickets on the issue tracker and resolves them one at a time — producing **decisions, not deliverables** — until the fog is pushed back and the way is clear. Then it merges onto the main flow at **`/skill:to-spec`** (or, if the effort turned out small enough, straight to **`/skill:implement`**). Where **`/skill:grill-with-docs`** sharpens an idea you can hold in one session, wayfinder is for the idea you can't.
+- **A huge, foggy effort — a greenfield project or a huge feature build, too big for one session** → **`/skill:wayfinder`**, the most cognitively demanding flow here. When the way from here to the destination isn't visible yet, it charts a **shared map** of **decision tickets** on the issue tracker and resolves them one at a time — producing **decisions, not deliverables** — until the fog is pushed back and the way is clear. Where **`/skill:grill-with-docs`** sharpens an idea you can hold in one session, wayfinder is for the idea you can't — and it's slower and denser, so save it for exactly that, never a well-scoped feature.
+
+  When the map clears, **it hands off, it doesn't build**: merge onto the main flow at **`/skill:to-spec`**, which collapses the map's linked decisions into a buildable plan, then `/skill:to-tickets` and `/skill:implement` as usual. Looping the map straight into `/skill:implement` skips that collapse and throws the linked detail away — go straight to `/skill:implement` only when the effort turned out genuinely small.
 
 ## Codebase health
 
@@ -66,7 +68,7 @@ Two model-invoked references that run *beneath* the other skills — each the si
 Off the main flow entirely.
 
 - **`/skill:grill-me`** — the same relentless interview as `/skill:grill-with-docs`, but for when you have **no codebase**. Stateless: it saves nothing locally, builds no `CONTEXT.md`. Reach for it to sharpen any plan or design that doesn't live in a repo.
-- **`/skill:prototype`** — a small, throwaway program that answers one design question: does this state model feel right, or what should this UI look like. Throwaway from day one — keep the answer, delete the code. It's the detour in step 2 of the main flow, but reach for it any time a design question is hard to settle on paper.
+- **`/skill:prototype`** — a small, throwaway program that answers one design question: does this state model feel right, or what should this UI look like. Throwaway from day one — keep the answer on main and preserve the prototype as a primary source on a throwaway branch. It's the detour in step 2 of the main flow, but reach for it any time a design question is hard to settle on paper.
 - **`/skill:research`** — delegate reading legwork to a **background agent**: it investigates a question against **primary sources**, then leaves a cited Markdown file in the repo. Keep working while it reads. The file it produces is something to take *into* the main flow at `/skill:grill-with-docs` — research feeds the thinking, it doesn't replace it.
 - **`/skill:teach`** — learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/skill:writing-great-skills`** — reference for writing and editing skills well.

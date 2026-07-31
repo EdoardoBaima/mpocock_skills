@@ -15,7 +15,7 @@ Invoke it as `/skill:wayfinder`.
 
 ## What it does
 
-`wayfinder` takes an effort too big for one agent session — wrapped in fog, where the way from here to the goal isn't visible yet — and charts it as a **shared map** of investigation tickets on your issue tracker, then resolves them one at a time until the way is clear. It **plans, it doesn't do**: every ticket resolves a decision, and the map is done when nothing is left to decide before someone goes and builds the thing — so it produces decisions, not deliverables.
+`wayfinder` takes an effort too big for one agent session — wrapped in fog, where the way from here to the goal isn't visible yet — and charts it as a **shared map** of **decision tickets** on your issue tracker, then resolves them one at a time until the way is clear. It **plans, it doesn't do**: every ticket resolves a decision — a question to settle, not a slice of a build to execute — and the map is done when nothing is left to decide before someone goes and builds the thing.
 
 ## When to reach for it
 
@@ -35,11 +35,13 @@ Beyond the live tickets lies the **fog of war** — decisions you can tell are c
 
 Every ticket is **HITL** (human in the loop — grilling, prototype) or **AFK** (agent alone — research); a HITL ticket only resolves through a live exchange, so the agent never answers its own questions.
 
+Research tickets are the exception to the one-ticket-per-session rule. Wayfinder uses the installed `pi-subagents` extension to run only unblocked, unclaimed frontier research in parallel. Each researcher gets fresh context and a unique report path. Researchers cannot change the map or tracker. The parent claims tickets before launch, checks every report and working-tree change, then updates successful tickets and the map one at a time.
+
 ## It's working if
 
 - Naming the **destination** is the first act — before any ticket exists — because it fixes the scope every ticket is measured against.
 - One map is one `wayfinder:map` issue; tickets are its child issues, referred to by **name**, never a bare `#42`.
-- A session resolves **at most one ticket**, records the answer as a resolution comment, closes the ticket, and appends a one-line pointer to *Decisions so far*.
+- A session resolves **at most one non-research ticket**; frontier research may run in parallel, but the parent finalises each result sequentially.
 - If the opening grill surfaces **no fog**, it stops and tells you the journey is small enough to skip the map.
 
 ## Where it fits

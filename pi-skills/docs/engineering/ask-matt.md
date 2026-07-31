@@ -27,7 +27,7 @@ Reach for it whenever you're unsure which skill or flow a situation calls for: y
 
 ## Flows, not just skills
 
-The idea `ask-matt` gives you to think with is the **flow** — a path *through* the skills rather than a single one. Most work runs along one **main flow** (idea → ship: grill → spec → tickets → implement → review), two **on-ramps** merge onto it (a triage lane for incoming bugs and requests; a codebase-health lane that generates ideas), and everything else is a **standalone** you reach for on its own. Ask a question and you get placed on the right flow, at the right step — not just handed a tool.
+The idea `ask-matt` gives you to think with is the **flow** — a path *through* the skills rather than a single one. Most work runs along one **main flow** (idea → ship: grill → spec → tickets → implement → review). Three on-ramps feed it: `triage` for incoming bugs and requests, `diagnosing-bugs` for hard failures, and `wayfinder` for huge efforts whose route is still foggy. Wayfinder hands its linked decisions to `to-spec` before implementation so the detail becomes a buildable plan. Codebase-health work generates new ideas that enter the main flow, while everything else is a **standalone** you reach for on its own.
 
 ## Where it fits
 

@@ -1,10 +1,10 @@
 ---
 name: wayfinder
-description: Plan a huge chunk of work — more than one agent session can hold — as a shared map of investigation tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.
+description: Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.
 disable-model-invocation: true
 ---
 
-A loose idea has arrived — too big for one agent session, and wrapped in fog: the way from here to the **destination** isn't visible yet. Wayfinding is about finding that way, not charging at the destination. This skill charts the way as a **shared map** on the repo's issue tracker, then works its tickets one at a time until the route is clear.
+A loose idea has arrived — too big for one agent session, and wrapped in fog: the way from here to the **destination** isn't visible yet. Wayfinding is about finding that way, not charging at the destination. This skill charts the way as a **shared map** on the repo's issue tracker, then works its **decision tickets** — questions whose resolution is a decision, not slices of a build to execute — one at a time until the route is clear.
 
 The destination varies per effort, and naming it is the first act of charting — it shapes every ticket. It might be a spec to hand off and iterate on, a decision to lock before planning starts, or a change made in place like a data-structure migration. The map is domain-agnostic — engineering work, course content, whatever fits the shape.
 
@@ -74,7 +74,7 @@ The answer isn't part of the body — it's recorded on resolution (see [Work thr
 
 Every ticket is either **HITL** — human in the loop, worked *with* a human who speaks for themselves — or **AFK**, driven by the agent alone. A HITL ticket only resolves through that live exchange; the agent never stands in for the human's side of it (a grilling agent that answers its own questions has broken this).
 
-- **Research** (AFK): Reading documentation, third-party APIs, or local resources like knowledge bases. Creates a markdown summary as a linked asset. Use when knowledge outside the current working directory is required.
+- **Research** (AFK): Reading documentation, third-party APIs, or local resources like knowledge bases to surface a fact a decision waits on. Resolve independent frontier research tickets in parallel with pi's `researcher` subagent, using the parent-owned workflow below.
 - **Prototype** (HITL): Raise the fidelity of the discussion by making a cheap, rough, concrete artifact to react to — an outline, a rough take, a stub, or UI/logic code via the /skill:prototype skill. Links the prototype as an asset. Use when "how should it look" or "how should it behave" is the key question.
 - **Grilling** (HITL): Conversation via the /skill:grilling and /skill:domain-modeling skills, one question at a time. The default case.
 - **Task** (HITL or AFK): Manual work that must happen before a *decision* can be made — nothing to decide, prototype, or research, but the discussion is blocked until it's done. Signing up for a service so its API can be judged, provisioning access, moving data so its shape can be seen. This is the one type that *does* rather than decides — and it earns its place by unblocking a decision, not by delivering the destination. The agent drives it alone where it can (AFK); otherwise it hands the human a precise checklist (HITL). Resolved when the work is done; the answer records what was done and any resulting facts (credentials location, new URLs, row counts) later tickets depend on.
@@ -100,9 +100,20 @@ Out-of-scope work never graduates — the frontier stops at the destination — 
 
 Ruling something out of scope is a scoping act, not a step on the route. When a ticket that already exists turns out to sit past the destination — mis-scoped in while charting, or exposed by a resolution — **close it** (a closed ticket is unambiguously off the frontier) and leave one line in the **Out of scope** section: the gist plus why it's out of scope, linking the closed ticket. It stays out of **Decisions so far**, which records the route actually walked — a scope boundary isn't a step on it.
 
+## Parallel research
+
+Research tickets are the exception to the one-ticket-per-session rule. The parent session owns every claim and tracker change; subagents only produce reports.
+
+1. Select only newly created `research` tickets that are on the frontier: open, unblocked, and unclaimed. Claim each selected ticket in the parent before launching anything.
+2. Give every ticket a unique report path. For a local tracker, use `.scratch/<effort>/research/<NN>-<slug>.md`. For a remote tracker, follow the repo's research-note convention and include the ticket identity in the filename.
+3. Record the working-tree baseline. Use `pi-subagents` to launch one `researcher` task per ticket in a single asynchronous parallel run. Use fresh context, distinct output paths, `outputMode: "file-only"`, `progress: false`, and bounded concurrency. Do not use worktree isolation for this normal path.
+4. Tell each researcher to answer only its assigned question from primary sources. It must treat the map and all tracker tickets as read-only, modify no code, write only its assigned report, and return confidence, gaps, decision implications, and a one-line gist.
+5. When the grouped result arrives, verify each child succeeded and compare the working tree with the baseline. Accept only the expected report files. Check their citations and completeness.
+6. Finalise successful tickets sequentially in the parent. Re-read the latest ticket and map first. For a remote tracker, commit and push reports before linking their immutable repository URLs. For a local tracker, use relative report links. Record the answer, close the ticket, then append its gist and pointer to the map. Leave failed tickets unresolved and either release their claims for retry or add a parent-written failure note.
+
 ## Invocation
 
-Two modes. Either way, **never resolve more than one ticket per session.**
+Two modes. Either way, **never resolve more than one non-research ticket per session.**
 
 ### Chart the map
 
@@ -112,7 +123,8 @@ User invokes with a loose idea.
 2. **Map the frontier.** Grill again, **breadth-first** this time: fan out across the whole space rather than deep on any one thread, surfacing the open decisions and the first steps takeable now. **If this surfaces no fog** — the way to the destination is already clear, the whole journey small enough for one session — you don't need a map. Stop and ask the user how they'd like to proceed.
 3. **Create the map** (label `wayfinder:map`): Destination and Notes filled in, Decisions-so-far empty, the fog sketched into **Not yet specified**.
 4. **Create the tickets you can specify now** as child issues of the map — then wire blocking edges in a **second pass** (issues need ids before they can reference each other). Wiring sorts them into the frontier and the blocked; everything you can't yet specify stays in the fog — the **Not yet specified** section.
-5. Stop — charting the map is one session's work; do not also resolve tickets.
+5. **Launch frontier research.** Run the parent-owned parallel research workflow for newly created research tickets that are open, unblocked, and unclaimed.
+6. Stop — charting hand-resolves no tickets. Parallel researchers may continue asynchronously.
 
 ### Work through the map
 

@@ -12,7 +12,7 @@ Pi-adapted engineering skills from upstream's public skill model.
 - **[to-spec](./to-spec/SKILL.md)** — Turn the current conversation into a spec on the issue tracker.
 - **[to-tickets](./to-tickets/SKILL.md)** — Break a plan, spec, or conversation into tracer-bullet tickets with blocking edges.
 - **[implement](./implement/SKILL.md)** — Implement work from a spec or set of tickets.
-- **[wayfinder](./wayfinder/SKILL.md)** — Plan work that is too large for one session as a shared map of investigation tickets.
+- **[wayfinder](./wayfinder/SKILL.md)** — Plan work that is too large for one session as a shared map of decision tickets.
 
 ## Model-invoked
 
