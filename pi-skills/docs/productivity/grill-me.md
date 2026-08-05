@@ -17,7 +17,7 @@ Invoke it as `/skill:grill-me`.
 
 `grill-me` runs a relentless interview about a plan or design, walking every branch of the decision tree until you and the agent reach a **shared understanding**.
 
-It asks **one question at a time** and waits. It never dumps a batch of questions at you — that is bewildering. It looks up facts the environment can settle, but it brings decisions back to you and waits for your answer. Each question comes with the agent's own recommended answer, so you are reacting to a proposal, not staring at a blank prompt.
+It asks the whole current **frontier** in one round, then waits. Each round contains only questions whose prerequisites are settled. It looks up facts the environment can settle, but it brings decisions back to you and waits for your answer. Each question comes with the agent's own recommended answer, so you are reacting to a proposal, not staring at a blank prompt.
 
 ## When to reach for it
 

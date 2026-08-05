@@ -31,24 +31,24 @@ Project-maintenance skills for this fork live under `.pi/skills/`, not in this g
 - `engineering/codebase-design`
 - `engineering/matt-review`
 - `engineering/resolving-merge-conflicts`
+- `engineering/wizard`
 
 ### Productivity
 
 - `productivity/grill-me`
 - `productivity/handoff`
 - `productivity/teach`
-- `productivity/writing-great-skills`
+- `productivity/to-questionnaire`
+- `productivity/wait-what`
+- `productivity/writing-for-agents`
 - `productivity/grilling`
 
 ### In progress
 
 These upstream skills are included because they are useful in pi, but they may still change more often than promoted skills.
 
-- `in-progress/batch-grill-me`
 - `in-progress/loop-me`
 - `in-progress/setup-ts-deep-modules`
-- `in-progress/to-questionnaire`
-- `in-progress/wizard`
 
 ### Human-facing docs
 
@@ -63,7 +63,6 @@ Current intentional omissions:
 - `code-review` is covered by pi's `matt-review` adaptation.
 - `claude-handoff` stays upstream-only because pi already has `handoff`, subagents, and intercom patterns.
 - `setup-pre-commit`, `scaffold-exercises`, and `migrate-to-shoehorn` stay upstream-only until there is a recurring pi-specific use case.
-- `edit-article` and `obsidian-vault` stay upstream-only because they are personal/workspace-specific.
 - `writing-fragments`, `writing-beats`, and `writing-shape` stay upstream-only because they are not core pi engineering skills.
 - Deprecated upstream skills stay upstream-only unless they are revived upstream and still make sense in pi.
 
@@ -97,10 +96,10 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 /skill:to-tickets
 /skill:wayfinder
 /skill:matt-review
-/skill:batch-grill-me
 /skill:loop-me
 /skill:setup-ts-deep-modules
 /skill:to-questionnaire
+/skill:wait-what
 /skill:wizard
 ```
 
@@ -111,6 +110,7 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 - `matt-review` is the pi name for upstream `code-review`, to avoid clashing with other review skills and extensions.
 - `matt-review` uses pi subagents rather than Claude-specific agent wording.
 - `research` uses pi subagents and pi web tools when reading online primary sources.
+- `wizard` is model-invoked in pi and remains available through `/skill:wizard`.
 - `setup-ts-deep-modules` treats the TypeScript configuration and scan targets as repository-specific, proves all five rules, and records the language-independent invariants for later adaptations.
 - `wayfinder` uses `pi-subagents` for parallel frontier research. The parent session owns claims, report checks, ticket closure, and sequential map updates; researchers write only to distinct report paths.
 - `.claude-plugin/plugin.json` is intentionally not used.

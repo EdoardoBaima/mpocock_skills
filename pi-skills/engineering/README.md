@@ -24,3 +24,4 @@ Pi-adapted engineering skills from upstream's public skill model.
 - **[codebase-design](./codebase-design/SKILL.md)** — Use deep-module vocabulary for codebase design.
 - **[matt-review](./matt-review/SKILL.md)** — Pi name for upstream `code-review`; reviews a diff on Standards and Spec axes with parallel sub-agents.
 - **[resolving-merge-conflicts](./resolving-merge-conflicts/SKILL.md)** — Resolve an in-progress git merge or rebase conflict.
+- **[wizard](./wizard/SKILL.md)** — Generate an interactive bash wizard for manual setup, credentials, migrations, or cutovers.

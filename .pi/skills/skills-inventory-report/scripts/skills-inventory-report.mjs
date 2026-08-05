@@ -99,7 +99,7 @@ function readDescription(skillPath, sourceKey) {
     } else {
       content = readFileSync(skillPath, 'utf8');
     }
-    const match = content.match(/^---\n([\s\S]*?)\n---/);
+    const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     if (!match) return '';
     const desc = match[1].match(/^description:\s*(.*)$/m);
     return desc ? desc[1].replace(/^['"]|['"]$/g, '') : '';
