@@ -52,10 +52,9 @@ function repoSkillFiles(prefix) {
 
 function fsSkillFiles(root) {
   if (!existsSync(root)) return [];
-  return readdirSync(root, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => join(root, entry.name, 'SKILL.md'))
-    .filter((file) => existsSync(file));
+  const files = [];
+  walk(root, files);
+  return files.filter((file) => file.replaceAll('\\', '/').endsWith('/SKILL.md'));
 }
 
 function walk(dir, files) {
@@ -112,13 +111,25 @@ function buildRow(name) {
   const present = Object.fromEntries(Object.keys(sources).map((key) => [key, Boolean(index[key][name])]));
   const topics = [...new Set(Object.values(index).map((skills) => skills[name]?.topic).filter(Boolean))];
   const paths = Object.fromEntries(Object.keys(sources).map((key) => [key, index[key][name]?.path ?? '']));
+  const curatedLocations = Object.fromEntries(Object.keys(sources).map((key) => [key, curatedSkillLocation(paths[key], key)]));
   const descriptions = Object.values(index).map((skills) => skills[name]?.description).filter(Boolean);
-  return { name, present, topics, paths, description: descriptions[0] ?? '' };
+  return { name, present, topics, paths, curatedLocations, description: descriptions[0] ?? '' };
+}
+
+function curatedSkillLocation(skillPath, sourceKey) {
+  const normalizedPath = skillPath.replaceAll('\\', '/');
+  if (sourceKey === 'branchPi') return normalizedPath.replace(/^pi-skills\//, '');
+  if (sourceKey !== 'chezmoi' && sourceKey !== 'runtime') return '';
+  const namespaceMarker = '/matt-pocock/';
+  const markerIndex = normalizedPath.indexOf(namespaceMarker);
+  return markerIndex >= 0 ? normalizedPath.slice(markerIndex + namespaceMarker.length) : '';
 }
 
 function renderHtml({ rows, counts, generatedAt }) {
   const sourceKeys = Object.keys(sources);
   const curatedMissingChezmoi = rows.filter((row) => row.present.branchPi && !row.present.chezmoi).map((row) => row.name);
+  const curatedChezmoiPathDrift = rows.filter((row) => row.present.branchPi && row.present.chezmoi && row.curatedLocations.branchPi !== row.curatedLocations.chezmoi).map((row) => row.name);
+  const curatedRuntimePathDrift = rows.filter((row) => row.present.branchPi && row.present.runtime && row.curatedLocations.branchPi !== row.curatedLocations.runtime).map((row) => row.name);
   const chezmoiOnly = rows.filter((row) => row.present.chezmoi && !row.present.branchPi && !row.present.upstream).map((row) => row.name);
   const runtimeMissingChezmoi = rows.filter((row) => row.present.chezmoi && !row.present.runtime).map((row) => row.name);
   return `<!doctype html>
@@ -153,6 +164,8 @@ footer { margin:28px 0; color:var(--muted); font-size:12px; }
 <section class="cards">${sourceKeys.map((key) => `<div class="card"><div>${escapeHtml(sources[key].label)}</div><div class="num">${counts[key]}</div><p>${escapeHtml(sources[key].description)}</p></div>`).join('')}</section>
 <section class="alerts">
 ${alertBlock('Curated pi skills missing from chezmoi', curatedMissingChezmoi)}
+${alertBlock('Curated pi skills at stale chezmoi paths', curatedChezmoiPathDrift)}
+${alertBlock('Curated pi skills at stale runtime paths', curatedRuntimePathDrift)}
 ${alertBlock('Chezmoi local-only skills', chezmoiOnly)}
 ${alertBlock('Chezmoi skills missing from runtime install', runtimeMissingChezmoi)}
 </section>
