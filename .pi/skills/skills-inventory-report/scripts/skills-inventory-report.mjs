@@ -10,6 +10,12 @@ const outputArgIndex = args.indexOf('--output');
 const outputPath = resolve(outputArgIndex >= 0 ? args[outputArgIndex + 1] : 'docs/skills-inventory-report.html');
 const repoRoot = process.cwd();
 
+// Runtime-only policies distinguish deliberate platform scope from unmanaged drift.
+// These skills should stay outside the shared Windows/WSL chezmoi source.
+const intentionalRuntimeOnlySkills = {
+  'inventor-interop': 'Windows-only: Autodesk Inventor and its interop assembly are unavailable on WSL.',
+};
+
 const sources = {
   upstream: { label: 'Upstream', description: 'upstream/main skills/', paths: gitSkillFiles('upstream/main', 'skills') },
   branchSkills: { label: 'Branch skills/', description: 'Current branch upstream copy', paths: repoSkillFiles('skills') },
@@ -99,21 +105,37 @@ function readDescription(skillPath, sourceKey) {
       content = readFileSync(skillPath, 'utf8');
     }
     const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-    if (!match) return '';
-    const desc = match[1].match(/^description:\s*(.*)$/m);
-    return desc ? desc[1].replace(/^['"]|['"]$/g, '') : '';
+    return match ? frontmatterDescription(match[1]) : '';
   } catch {
     return '';
   }
 }
 
+function frontmatterDescription(frontmatter) {
+  const lines = frontmatter.replaceAll('\r\n', '\n').split('\n');
+  const descriptionIndex = lines.findIndex((line) => line.startsWith('description:'));
+  if (descriptionIndex < 0) return '';
+
+  const value = lines[descriptionIndex].slice('description:'.length).trim();
+  if (!/^[>|][+-]?$/.test(value)) return value.replace(/^['"]|['"]$/g, '');
+
+  const blockLines = [];
+  for (const line of lines.slice(descriptionIndex + 1)) {
+    if (line && !/^\s/.test(line)) break;
+    blockLines.push(line.trim());
+  }
+  return blockLines.join(' ').replace(/\s+/g, ' ').trim();
+}
+
 function buildRow(name) {
   const present = Object.fromEntries(Object.keys(sources).map((key) => [key, Boolean(index[key][name])]));
   const topics = [...new Set(Object.values(index).map((skills) => skills[name]?.topic).filter(Boolean))];
+  const runtimeOnlyReason = intentionalRuntimeOnlySkills[name] ?? '';
+  if (runtimeOnlyReason) topics.push('windows-only');
   const paths = Object.fromEntries(Object.keys(sources).map((key) => [key, index[key][name]?.path ?? '']));
   const curatedLocations = Object.fromEntries(Object.keys(sources).map((key) => [key, curatedSkillLocation(paths[key], key)]));
   const descriptions = Object.values(index).map((skills) => skills[name]?.description).filter(Boolean);
-  return { name, present, topics, paths, curatedLocations, description: descriptions[0] ?? '' };
+  return { name, present, topics, paths, curatedLocations, description: descriptions[0] ?? '', runtimeOnlyReason };
 }
 
 function curatedSkillLocation(skillPath, sourceKey) {
@@ -132,7 +154,9 @@ function renderHtml({ rows, counts, generatedAt }) {
   const curatedRuntimePathDrift = rows.filter((row) => row.present.branchPi && row.present.runtime && row.curatedLocations.branchPi !== row.curatedLocations.runtime).map((row) => row.name);
   const chezmoiOnly = rows.filter((row) => row.present.chezmoi && !row.present.branchPi && !row.present.upstream).map((row) => row.name);
   const runtimeMissingChezmoi = rows.filter((row) => row.present.chezmoi && !row.present.runtime).map((row) => row.name);
-  const runtimeOnly = rows.filter((row) => row.present.runtime && !row.present.chezmoi).map((row) => row.name);
+  const runtimeOnly = rows.filter((row) => row.present.runtime && !row.present.chezmoi && !row.runtimeOnlyReason).map((row) => row.name);
+  const intentionalRuntimeOnly = rows.filter((row) => row.present.runtime && !row.present.chezmoi && row.runtimeOnlyReason);
+  const platformScopedInChezmoi = rows.filter((row) => row.present.chezmoi && row.runtimeOnlyReason).map((row) => row.name);
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -169,7 +193,9 @@ ${alertBlock('Curated pi skills at stale chezmoi paths', curatedChezmoiPathDrift
 ${alertBlock('Curated pi skills at stale runtime paths', curatedRuntimePathDrift)}
 ${alertBlock('Chezmoi local-only skills', chezmoiOnly)}
 ${alertBlock('Chezmoi skills missing from runtime install', runtimeMissingChezmoi)}
-${alertBlock('Runtime skills missing from chezmoi', runtimeOnly)}
+${alertBlock('Unexpected runtime skills missing from chezmoi', runtimeOnly)}
+${runtimePolicyBlock('Intentional platform-specific runtime skills', intentionalRuntimeOnly)}
+${alertBlock('Platform-specific runtime skills incorrectly in shared chezmoi', platformScopedInChezmoi)}
 </section>
 <h2>Skill matrix</h2>
 <div class="table-wrap"><table><thead><tr><th>Skill</th><th>Macro folder / topic</th>${sourceKeys.map((key) => `<th>${escapeHtml(sources[key].label)}</th>`).join('')}<th>Description</th><th>Paths</th></tr></thead><tbody>
@@ -181,6 +207,11 @@ ${rows.map((row) => `<tr><td><strong>${escapeHtml(row.name)}</strong></td><td>${
 
 function alertBlock(title, names) {
   return `<div class="alert"><strong>${escapeHtml(title)}</strong><p>${names.length ? names.map((name) => `<span class="badge">${escapeHtml(name)}</span>`).join('') : 'None'}</p></div>`;
+}
+
+function runtimePolicyBlock(title, rows) {
+  const details = rows.map((row) => `<span class="badge">${escapeHtml(row.name)}</span> ${escapeHtml(row.runtimeOnlyReason)}`).join('<br>');
+  return `<div class="alert"><strong>${escapeHtml(title)}</strong><p>${details || 'None'}</p></div>`;
 }
 
 function escapeHtml(value) {

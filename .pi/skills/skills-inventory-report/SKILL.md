@@ -55,6 +55,7 @@ The script updates the HTML file in place and opens it in the default browser.
    - a comparison matrix for all discovered skills
    - macro folder/topic, such as `engineering`, `productivity`, `misc`, `personal`, `in-progress`, `deprecated`, or `local`
    - notable differences, including missing chezmoi/runtime skills and local-only skills
+   - intentional platform-specific runtime exceptions, kept separate from unexpected drift
    - exact paths for each skill source
 
 4. **Commit if appropriate**
@@ -78,5 +79,6 @@ node .pi/skills/skills-inventory-report/scripts/skills-inventory-report.mjs --ou
 - Prefer deterministic script output over hand-built tables.
 - Keep the report standalone: inline CSS and JavaScript only.
 - Make discrepancies obvious and easy to scan.
+- Record deliberate runtime-only platform exceptions in `intentionalRuntimeOnlySkills`; do not hide them as generic drift.
 - Do not modify chezmoi or installed runtime skills; this skill reports only.
 - If a source is missing, report it clearly instead of failing silently.
