@@ -132,6 +132,7 @@ function renderHtml({ rows, counts, generatedAt }) {
   const curatedRuntimePathDrift = rows.filter((row) => row.present.branchPi && row.present.runtime && row.curatedLocations.branchPi !== row.curatedLocations.runtime).map((row) => row.name);
   const chezmoiOnly = rows.filter((row) => row.present.chezmoi && !row.present.branchPi && !row.present.upstream).map((row) => row.name);
   const runtimeMissingChezmoi = rows.filter((row) => row.present.chezmoi && !row.present.runtime).map((row) => row.name);
+  const runtimeOnly = rows.filter((row) => row.present.runtime && !row.present.chezmoi).map((row) => row.name);
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -168,6 +169,7 @@ ${alertBlock('Curated pi skills at stale chezmoi paths', curatedChezmoiPathDrift
 ${alertBlock('Curated pi skills at stale runtime paths', curatedRuntimePathDrift)}
 ${alertBlock('Chezmoi local-only skills', chezmoiOnly)}
 ${alertBlock('Chezmoi skills missing from runtime install', runtimeMissingChezmoi)}
+${alertBlock('Runtime skills missing from chezmoi', runtimeOnly)}
 </section>
 <h2>Skill matrix</h2>
 <div class="table-wrap"><table><thead><tr><th>Skill</th><th>Macro folder / topic</th>${sourceKeys.map((key) => `<th>${escapeHtml(sources[key].label)}</th>`).join('')}<th>Description</th><th>Paths</th></tr></thead><tbody>
