@@ -117,7 +117,7 @@ function frontmatterDescription(frontmatter) {
   if (descriptionIndex < 0) return '';
 
   const value = lines[descriptionIndex].slice('description:'.length).trim();
-  if (!/^[>|][+-]?$/.test(value)) return value.replace(/^['"]|['"]$/g, '');
+  if (!/^[>|][+-]?$/.test(value)) return parseInlineYamlScalar(value);
 
   const blockLines = [];
   for (const line of lines.slice(descriptionIndex + 1)) {
@@ -125,6 +125,18 @@ function frontmatterDescription(frontmatter) {
     blockLines.push(line.trim());
   }
   return blockLines.join(' ').replace(/\s+/g, ' ').trim();
+}
+
+function parseInlineYamlScalar(value) {
+  if (value.startsWith('"') && value.endsWith('"')) {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return value.slice(1, -1);
+    }
+  }
+  if (value.startsWith("'") && value.endsWith("'")) return value.slice(1, -1).replaceAll("''", "'");
+  return value;
 }
 
 function buildRow(name) {
