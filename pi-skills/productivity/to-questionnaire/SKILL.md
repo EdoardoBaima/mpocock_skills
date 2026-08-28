@@ -4,7 +4,7 @@ description: Turn a decision you cannot fully answer into a questionnaire for so
 disable-model-invocation: true
 ---
 
-Turn something the user cannot answer alone into a **questionnaire** — a Markdown document they hand to one person to fill in asynchronously, or complete together in a meeting. The recipient holds knowledge the user lacks; the questionnaire pulls it out of them.
+Turn something the user cannot answer alone into a **questionnaire**: a Markdown document they hand to one person to fill in asynchronously, or complete together in a meeting. The recipient holds knowledge the user lacks; the questionnaire pulls it out of them.
 
 **Grill the send, not the subject.** Interview the user only about the _send_, which they can answer: who it goes to, what they need back, and how the exchange will work. The questions in the document then target the **gap** between what the recipient knows and what the user needs.
 
@@ -16,7 +16,7 @@ Turn something the user cannot answer alone into a **questionnaire** — a Markd
 
 ## Document structure
 
-Frame the document as a **discovery questionnaire**: the user lacks context and the recipient holds it. Order questions most-important-first — asynchronous means you may get only one pass — and group them under `##` headings by theme once there are more than a handful.
+Frame the document as a **discovery questionnaire**: the user lacks context and the recipient holds it. Order questions most-important-first because an asynchronous exchange may give you only one pass. Group them under `##` headings by theme once there are more than a handful.
 
 <questionnaire-template>
 
@@ -24,7 +24,7 @@ Frame the document as a **discovery questionnaire**: the user lacks context and 
 
 **Purpose:** why this questionnaire exists and the decision riding on it.
 
-**From:** <the user> — **To:** <the recipient> — **How your answers will be used:** <where they go>
+**From:** <the user>, **To:** <the recipient>, **How your answers will be used:** <where they go>
 
 ## Context
 

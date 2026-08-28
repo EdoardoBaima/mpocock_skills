@@ -88,7 +88,7 @@ module.exports = {
     //   name: "ui-may-not-depend-on-billing",
     //   severity: "error",
     //   from: { path: `^${R}/ui/` },
-    //   to: { path: `^${R}/billing/` },
+    //   to:   { path: `^${R}/billing/` },
     // },
   ],
   options: {

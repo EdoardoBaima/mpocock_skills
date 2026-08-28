@@ -49,6 +49,8 @@ These upstream skills are included because they are useful in pi, but they may s
 
 - `in-progress/loop-me`
 - `in-progress/setup-ts-deep-modules`
+- `in-progress/implement-spec`
+- `in-progress/retro`
 
 ### Human-facing docs
 
@@ -64,6 +66,7 @@ Current intentional omissions:
 - `claude-handoff` stays upstream-only because pi already has `handoff`, subagents, and intercom patterns.
 - `setup-pre-commit`, `scaffold-exercises`, and `migrate-to-shoehorn` stay upstream-only until there is a recurring pi-specific use case.
 - `writing-fragments`, `writing-beats`, and `writing-shape` stay upstream-only because they are not core pi engineering skills.
+- `git-guardrails-claude-code` stays upstream-only because its guardrails target Claude Code.
 - Deprecated upstream skills stay upstream-only unless they are revived upstream and still make sense in pi.
 
 When upstream adds a skill, decide explicitly whether to port it, defer it, or record it here as upstream-only.
@@ -98,6 +101,8 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 /skill:matt-review
 /skill:loop-me
 /skill:setup-ts-deep-modules
+/skill:implement-spec
+/skill:retro
 /skill:to-questionnaire
 /skill:wait-what
 /skill:wizard
@@ -113,4 +118,6 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 - `wizard` is model-invoked in pi and remains available through `/skill:wizard`.
 - `setup-ts-deep-modules` treats the TypeScript configuration and scan targets as repository-specific, proves all five rules, and records the language-independent invariants for later adaptations.
 - `wayfinder` uses `pi-subagents` for parallel frontier research. The parent session owns claims, report checks, ticket closure, and sequential map updates; researchers write only to distinct report paths.
+- `implement-spec` uses isolated Pi subagent worktrees for frontier tickets and one sequential integration writer.
+- `retro` uses Pi session search and query tools to ground recommendations in session evidence.
 - `.claude-plugin/plugin.json` is intentionally not used.
