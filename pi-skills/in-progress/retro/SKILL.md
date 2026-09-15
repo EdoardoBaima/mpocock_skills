@@ -15,8 +15,8 @@ The user has asked for a **retrospective**. Suggest improvements to the coding a
 3. Look for improvement candidates in these categories:
 
 - **Navigation**: could the agent find the right files quickly? Were dependencies hidden? Would a navigation pointer help? Use this when the session spent too long finding information.
-- **Automated checks**: could linting, typing, tests, filesystem checks, or repository scripts have caught an error earlier? Use this when the agent made a preventable mistake.
-- **Coding standards**: should the review agent enforce, remove, or clarify a rule? Use this when review missed a mistake or repeatedly flags a false positive.
+- **Automated checks**: could linting, typing, tests, filesystem checks, or repository scripts have caught an error earlier? Read the repository's check commands and CI workflows first. If an existing check is unwired or silently broken, recommend repairing it. A repository with neither a pre-commit hook nor a CI job running its lint, typecheck, or test command is itself a finding. Use this when the agent made a preventable mistake or the repository has no automated guardrail.
+- **Coding standards**: should the review agent enforce, remove, or clarify a rule? Classify each violation first. Mechanical violations, such as fixed syntactic patterns, banned APIs, import shapes, or file-location rules, call for a deterministic check. Recommend a linter rule, pre-commit hook, or CI job, whichever fits the repository's language and existing checks with the least maintenance. Reserve `CODING_STANDARDS.md` for judgement calls that automated checks cannot enforce. Use this when review missed a mistake or repeatedly flags a false positive.
 - **Global or repository AGENTS.md**: should a steering instruction move into coding standards, an automated check, or a referenced document? Use this when an `AGENTS.md` or `CLAUDE.md` file carries too much always-loaded detail.
 - **Tool economy**: did the agent make expensive or repeated tool calls that a script, focused query, or better tool contract could replace? Use this when tool use consumed avoidable time or context.
 - **No-ops**: do steering files contain instructions that do not change agent behaviour? Use this when instructions are large, repeated, or ignored.
@@ -37,6 +37,6 @@ Put enforceable coding standards in review or automated checks where possible. K
 ### Files
 
 - `AGENTS.md` and `CLAUDE.md` enter an agent's context. Use them sparingly, usually for navigation pointers.
-- `CODING_STANDARDS.md` is review guidance. Add pointers to supporting documents when it becomes difficult to scan.
+- `CODING_STANDARDS.md` holds review guidance for judgement calls. Add pointers to supporting documents when it becomes difficult to scan.
 - Documentation files hold reference material. Look for an existing home before creating another file.
 - Skills hold reusable agent workflows or user-invoked commands. Follow `/skill:writing-for-agents` when changing them.

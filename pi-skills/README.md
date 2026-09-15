@@ -119,5 +119,5 @@ Restart pi or run `/reload`. Invoke user-invoked skills with `/skill:<name>`, fo
 - `setup-ts-deep-modules` treats the TypeScript configuration and scan targets as repository-specific, proves all five rules, and records the language-independent invariants for later adaptations.
 - `wayfinder` uses `pi-subagents` for parallel frontier research. The parent session owns claims, report checks, ticket closure, and sequential map updates; researchers write only to distinct report paths.
 - `implement-spec` uses isolated Pi subagent worktrees for frontier tickets and one sequential integration writer.
-- `retro` uses Pi session search and query tools to ground recommendations in session evidence.
+- `retro` uses Pi session search and query tools to ground recommendations in session evidence. It recommends deterministic checks for mechanical violations and reserves coding standards for judgement calls.
 - `.claude-plugin/plugin.json` is intentionally not used.
